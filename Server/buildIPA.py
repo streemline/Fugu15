@@ -46,20 +46,25 @@ def buildIPA(appStoreIPA, fuguInstall, otherIPA, installHaxx="../Tools/installHa
 if __name__ == "__main__":
     import sys
     import os
-    
+
     if len(sys.argv) < 3:
         print("Usage: buildIPA.py <path to other IPA> <output path> <optional path to AppStore IPA> <optional path to FuguInstall> <optional path to installHaxx binary>")
         exit(-1)
-    
+
     base = os.path.dirname(sys.argv[0])
     if base == '':
         base = '.'
-        
+
     otherIPA    = sys.argv[1]
     output      = sys.argv[2]
-    appStoreIPA = sys.argv[3] if len(sys.argv) >= 4 else (base + "/orig.ipa")
-    fuguInstall = sys.argv[4] if len(sys.argv) >= 5 else (base + "/FuguInstall")
-    installHaxx = sys.argv[5] if len(sys.argv) >= 6 else (base + "/../Tools/installHaxx/installHaxx")
+    appStoreIPA = sys.argv[3] if len(sys.argv) >= 4 else f"{base}/orig.ipa"
+    fuguInstall = sys.argv[4] if len(sys.argv) >= 5 else f"{base}/FuguInstall"
+    installHaxx = (
+        sys.argv[5]
+        if len(sys.argv) >= 6
+        else f"{base}/../Tools/installHaxx/installHaxx"
+    )
+
 
     with open(output, "wb+") as f:
         f.write(buildIPA(appStoreIPA, fuguInstall, otherIPA, installHaxx))
